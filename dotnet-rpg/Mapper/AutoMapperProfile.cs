@@ -10,7 +10,6 @@ namespace dotnet_rpg.Mapper
         {
             CreateMap<Character, GetCharacterDto>();
             CreateMap<AddCharacterDto, Character>();
-            CreateMap<UpdateCharacterDto, Character>();
         }
     }
 }
