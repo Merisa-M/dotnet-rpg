@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace dotnet_rpg.Controllers
 {
-    [Authorize]
+   
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase
@@ -57,6 +57,11 @@ namespace dotnet_rpg.Controllers
                 return NotFound(response);
             }
             return Ok(response);
+        }
+        [HttpPost("{Skill}")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill)
+        {
+            return Ok(await _characterService.AddCharacterSkill(newCharacterSkill));
         }
     }
 }
