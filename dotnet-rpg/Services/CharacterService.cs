@@ -27,7 +27,6 @@ namespace dotnet_rpg.Services
         }
 
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-      
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
@@ -73,7 +72,7 @@ namespace dotnet_rpg.Services
             var dbCharacters = await _context.Characters
                 .Include(c => c.Weapon)
                 .Include(c => c.Skills)
-                .Where(c=> c.User.Id == GetUserId()).ToListAsync();
+                .Where(c => c.User.Id == GetUserId()).ToListAsync();
             serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             return serviceResponse;
         }
@@ -130,7 +129,6 @@ namespace dotnet_rpg.Services
                     .Include(c => c.Weapon)
                     .Include(c => c.Skills)
                     .FirstOrDefaultAsync(c => c.Id == newCharacterSkill.CharacterId && c.User.Id == GetUserId());
-
 
                 if (character == null)
                 {

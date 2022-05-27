@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -41,7 +42,6 @@ namespace dotnet_rpg.Data
             }
             return resposne;
         }
-
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
@@ -61,7 +61,6 @@ namespace dotnet_rpg.Data
             response.Data = user.Id;
             return response;
         }
-
         public async Task<bool> UserExists(string username)
         {
             if (await _context.Users.AnyAsync(x => x.Username.ToLower().Equals(username.ToLower())))
@@ -70,7 +69,7 @@ namespace dotnet_rpg.Data
             }
             return false;
         }
-        private void CreatePassowrdHash(string password, out byte[] passwordHash, out byte[] passwordSalt) 
+        private void CreatePassowrdHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
@@ -78,14 +77,13 @@ namespace dotnet_rpg.Data
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
-
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-            { 
+            {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 
-                for (int i = 0; i< computedHash.Length; i++)
+                for (int i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != passwordHash[i])
                     {
@@ -111,7 +109,7 @@ namespace dotnet_rpg.Data
                 Expires = System.DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
-            var tokenHandler = new JwtSecurityTokenHandler(); 
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokendDescriptor);
 
             return tokenHandler.WriteToken(token);

@@ -12,7 +12,6 @@ namespace dotnet_rpg.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authRepo;
-
         public AuthController(IAuthRepository authRepo)
         {
             _authRepo = authRepo;
